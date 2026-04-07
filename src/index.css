@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --accent: #0091EA;
+  --accent-dark: #0277BD;
+  --accent-gradient: linear-gradient(135deg, #00B0FF 0%, #0091EA 50%, #0277BD 100%);
+  --text-dark: #2c3e50;
+  --text-mid: #5a6a7a;
+  --text-light: #bcc8d4;
+  --weekend-blue: #0091EA;
+  --card-bg: #ffffff;
+  --page-bg: #c0c8d0;
+  --line-color: #d8dce2;
+  --shadow-color: rgba(0, 0, 0, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #b8c2cc;
+  background-image:
+    repeating-linear-gradient(135deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.018) 2px,
+      rgba(0, 0, 0, 0.018) 4px),
+    radial-gradient(ellipse at 50% 25%, #d4dae2 0%, #9aa4b0 60%, #7e8b98 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 70px 16px 60px;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input {
+  font-family: inherit;
+}
