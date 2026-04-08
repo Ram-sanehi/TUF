@@ -26,6 +26,7 @@ export function isSameDay(date1: Date | null, date2: Date | null): boolean {
         date1.getDate() === date2.getDate();
 }
 
+// DATE RANGE LOGIC: Check if date falls within range (handles bidirectional selection)
 export function isDateBetween(date: Date, start: Date | null, end: Date | null): boolean {
     if (!start || !end) return false;
     const dToTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
@@ -46,6 +47,7 @@ export interface NoteData {
     [dateKey: string]: string;
 }
 
+// LOCAL STORAGE PERSISTENCE: Retrieve notes from localStorage with error handling
 export function loadNotes(): NoteData {
     try {
         const raw = localStorage.getItem('calendar_notes');
@@ -55,6 +57,7 @@ export function loadNotes(): NoteData {
     }
 }
 
+// LOCAL STORAGE PERSISTENCE: Save notes to localStorage
 export function saveNotes(notes: NoteData): void {
     localStorage.setItem('calendar_notes', JSON.stringify(notes));
 }

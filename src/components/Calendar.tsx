@@ -68,12 +68,14 @@ export const Calendar = () => {
         }
     }, [currentMonth, flipDirection]);
 
+    // 3D TILT ANIMATION: Mouse-based 3D perspective effect
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (!tiltRef.current) return;
             const rect = tiltRef.current.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
+            // Normalize to -1 to 1 range
             const deltaX = (e.clientX - centerX) / (rect.width / 2);
             const deltaY = (e.clientY - centerY) / (rect.height / 2);
             mousePos.current = { x: deltaX, y: deltaY };
@@ -86,10 +88,13 @@ export const Calendar = () => {
             }
         };
 
+        // 3D TILT ANIMATION: Continuous rotation easing based on mouse position
         const animateTilt = () => {
             if (!tiltRef.current) return;
+            // Ease tilt: Y position → X rotation, X position → Y rotation
             tiltAnimRef.current.x += (mousePos.current.y * -6 - tiltAnimRef.current.x) * 0.08;
             tiltAnimRef.current.y += (mousePos.current.x * 8 - tiltAnimRef.current.y) * 0.08;
+            // Apply 3D perspective transform
             tiltRef.current.style.transform = `perspective(1200px) rotateX(${4 + tiltAnimRef.current.x}deg) rotateY(${-3 + tiltAnimRef.current.y}deg)`;
             requestAnimationFrame(animateTilt);
         };
@@ -196,6 +201,7 @@ export const Calendar = () => {
         };
     }, [month, year, isFlipping]);
 
+    // DATE RANGE LOGIC: Three-state selection (none → start → range)
     const handleDateClick = (date: Date) => {
         if (selectionRange.start && selectionRange.end) {
             setSelectionRange({ start: date, end: null });
@@ -208,6 +214,7 @@ export const Calendar = () => {
         }
     };
 
+    // DATE RANGE LOGIC: Highlight selected range and hover preview
     const getDayClass = (date: Date): string => {
         const c: string[] = ['dc'];
         if (isSameDay(date, new Date())) c.push('dc-today');
@@ -216,20 +223,26 @@ export const Calendar = () => {
         if (isStart || isEnd) c.push('dc-sel');
         if (isStart) c.push('dc-start');
         if (isEnd) c.push('dc-end');
+
         if (selectionRange.start && selectionRange.end) {
             if (isDateBetween(date, selectionRange.start, selectionRange.end)) c.push('dc-inrange');
         } else if (selectionRange.start && hoverDate && !selectionRange.end) {
+            // DATE RANGE LOGIC: Preview range on hover
             if (isDateBetween(date, selectionRange.start, hoverDate)) c.push('dc-inrange', 'dc-hrange');
         }
         if (date.getDay() === 0 || date.getDay() === 6) c.push('dc-wkend');
         return c.join(' ');
     };
 
+    // LOCAL STORAGE PERSISTENCE: Note key by date (if selected) or month
     const noteKey = selectionRange.start
         ? `${year}-${String(month + 1).padStart(2, '0')}-${String(selectionRange.start.getDate()).padStart(2, '0')}`
         : `${year}-${String(month + 1).padStart(2, '0')}`;
 
+    // LOCAL STORAGE PERSISTENCE: Retrieve note line
     const getLine = (i: number) => notes[`${noteKey}_L${i}`] || '';
+    
+    // LOCAL STORAGE PERSISTENCE: Update note line and persist
     const setLine = (i: number, val: string) => {
         const updated = { ...notes, [`${noteKey}_L${i}`]: val };
         setNotes(updated);
